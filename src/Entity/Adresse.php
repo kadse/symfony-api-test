@@ -3,10 +3,32 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AdresseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get"={"path"="/adressen"},
+ *         "post"={"path"="/adressen"}
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *             "path"="/adressen/{id}",
+ *             "requirements"={"id"="\d+"},
+ *         },
+ *         "put"={
+ *             "path"="/adressen/{id}",
+ *             "requirements"={"id"="\d+"},
+ *         },
+ *         "delete"={
+ *             "path"="/adressen/{id}",
+ *             "requirements"={"id"="\d+"},
+ *         }
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=AdresseRepository::class)
  * @ORM\Table(name="std.adresse")
  */
@@ -15,34 +37,37 @@ class Adresse
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(name="adresse_id", type="integer")
+     * @ORM\Column(type="integer")
      */
-    private int $id;
+    private int $adresse_id;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private string $strasse;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
-    private string $plz;
+    private ?string $plz;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private string $ort;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Bundesland")
      * @ORM\JoinColumn(name="bundesland", referencedColumnName="kuerzel")
+     * @Assert\NotBlank()
      */
     private Bundesland $bundesland;
 
     public function getId(): int
     {
-        return $this->id;
+        return $this->adresse_id;
     }
 
     public function getStrasse(): string
@@ -57,7 +82,7 @@ class Adresse
         return $this;
     }
 
-    public function getPlz(): string
+    public function getPlz(): ?string
     {
         return $this->plz;
     }

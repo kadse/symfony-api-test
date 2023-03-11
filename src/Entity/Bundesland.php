@@ -17,7 +17,7 @@ class Bundesland
      * @ORM\Column(name="kuerzel", type="string", length=2)
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private string $id;
+    private string $kuerzel;
 
     /**
      * @ORM\Column(type="text")
@@ -26,7 +26,7 @@ class Bundesland
 
     public function getId(): string
     {
-        return $this->id;
+        return $this->kuerzel;
     }
 
     public function getName(): string
