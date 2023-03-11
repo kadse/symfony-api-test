@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use App\Entity\Attributes\HasSoftDelete;
 use App\Entity\Attributes\SoftDeletable;
+use App\Entity\Type\Enum\Geschlecht;
 use App\Repository\KundeRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -113,14 +114,18 @@ class Kunde implements SoftDeletable
         return $this;
     }
 
-    public function getGeschlecht(): ?string
+    public function getGeschlecht(): ?Geschlecht
     {
-        return $this->geschlecht;
+        return $this->geschlecht
+            ? new Geschlecht($this->geschlecht)
+            : null;
     }
 
-    public function setGeschlecht(?string $geschlecht): self
+    public function setGeschlecht(?Geschlecht $geschlecht): self
     {
-        $this->geschlecht = $geschlecht;
+        $this->geschlecht = $geschlecht
+            ? (string) $geschlecht
+            : null;
 
         return $this;
     }
