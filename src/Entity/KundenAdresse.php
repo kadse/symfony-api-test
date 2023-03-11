@@ -17,11 +17,13 @@ class KundenAdresse implements SoftDeletable
     use HasSoftDelete;
 
     /**
+     * @ORM\Id
      * @ORM\Column(type="string", length=8)
      */
     private string $kunde_id;
 
     /**
+     * @ORM\Id
      * @ORM\Column(type="integer")
      */
     private int $adresse_id;
