@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -7,27 +8,28 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BundeslandRepository::class)
+ * @ORM\Table(name="public.bundesland")
  */
 class Bundesland
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="kuerzel", type="string", length=2)
+     * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $id;
+    private string $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $name;
+    private string $name;
 
-    public function getId(): ?int
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

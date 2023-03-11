@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -7,42 +8,44 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=AdresseRepository::class)
+ * @ORM\Table(name="std.adresse")
  */
 class Adresse
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="adresse_id", type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $strasse;
+    private string $strasse;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
-    private $plz;
+    private string $plz;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $ort;
+    private string $ort;
 
     /**
-     * @ORM\Column(type="string", length=2)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Bundesland")
+     * @ORM\JoinColumn(name="bundesland", referencedColumnName="kuerzel")
      */
-    private $bundesland;
+    private Bundesland $bundesland;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getStrasse(): ?string
+    public function getStrasse(): string
     {
         return $this->strasse;
     }
@@ -54,7 +57,7 @@ class Adresse
         return $this;
     }
 
-    public function getPlz(): ?string
+    public function getPlz(): string
     {
         return $this->plz;
     }
@@ -66,7 +69,7 @@ class Adresse
         return $this;
     }
 
-    public function getOrt(): ?string
+    public function getOrt(): string
     {
         return $this->ort;
     }
@@ -78,12 +81,12 @@ class Adresse
         return $this;
     }
 
-    public function getBundesland(): ?string
+    public function getBundesland(): Bundesland
     {
         return $this->bundesland;
     }
 
-    public function setBundesland(string $bundesland): self
+    public function setBundesland(Bundesland $bundesland): self
     {
         $this->bundesland = $bundesland;
 

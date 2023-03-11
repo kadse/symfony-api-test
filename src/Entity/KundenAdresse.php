@@ -1,53 +1,42 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Attributes\HasSoftDelete;
+use App\Entity\Attributes\SoftDeletable;
 use App\Repository\KundenAdresseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=KundenAdresseRepository::class)
+ * @ORM\Table(name="std.kunde_adresse")
  */
-class KundenAdresse
+class KundenAdresse implements SoftDeletable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use HasSoftDelete;
 
     /**
      * @ORM\Column(type="string", length=8)
      */
-    private $kunde_id;
+    private string $kunde_id;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $adresse_id;
+    private int $adresse_id;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $geschaeftlich;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $rechnungsadresse;
+    private bool $geschaeftlich;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $geloescht;
+    private bool $rechnungsadresse;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getKundeId(): ?string
+    public function getKundeId(): string
     {
         return $this->kunde_id;
     }
@@ -59,7 +48,7 @@ class KundenAdresse
         return $this;
     }
 
-    public function getAdresseId(): ?int
+    public function getAdresseId(): int
     {
         return $this->adresse_id;
     }
@@ -71,7 +60,7 @@ class KundenAdresse
         return $this;
     }
 
-    public function getGeschaeftlich(): ?bool
+    public function getGeschaeftlich(): bool
     {
         return $this->geschaeftlich;
     }
@@ -83,26 +72,14 @@ class KundenAdresse
         return $this;
     }
 
-    public function getRechnungsadresse(): ?bool
+    public function getRechnungsadresse(): bool
     {
         return $this->rechnungsadresse;
     }
 
-    public function setRechnungsadresse(?bool $rechnungsadresse): self
+    public function setRechnungsadresse(bool $rechnungsadresse): self
     {
         $this->rechnungsadresse = $rechnungsadresse;
-
-        return $this;
-    }
-
-    public function getGeloescht(): ?bool
-    {
-        return $this->geloescht;
-    }
-
-    public function setGeloescht(bool $geloescht): self
-    {
-        $this->geloescht = $geloescht;
 
         return $this;
     }

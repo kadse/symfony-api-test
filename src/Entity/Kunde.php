@@ -1,51 +1,54 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Attributes\HasSoftDelete;
+use App\Entity\Attributes\SoftDeletable;
 use App\Repository\KundeRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=KundeRepository::class)
+ * @ORM\Table(name="std.tbl_kunden")
  */
-class Kunde
+class Kunde implements SoftDeletable
 {
+    use HasSoftDelete;
+
     /**
+     * TODO ab Symfony 5.2 UUID
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="id", type="string", length=8)
      */
-    private $id;
+    private string $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $vorname;
+    private string $vorname;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $firma;
+    private ?string $firma;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $geburtsdatum;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $geloescht;
+    private ?DateTimeInterface $geburtsdatum;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $geschlecht;
+    private ?string $geschlecht;
 
     /**
      * @ORM\Column(type="text")
@@ -55,14 +58,14 @@ class Kunde
     /**
      * @ORM\Column(type="integer")
      */
-    private $vermittler_id;
+    private int $vermittler_id;
 
-    public function getId(): ?int
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -74,7 +77,7 @@ class Kunde
         return $this;
     }
 
-    public function getVorname(): ?string
+    public function getVorname(): string
     {
         return $this->vorname;
     }
@@ -98,26 +101,14 @@ class Kunde
         return $this;
     }
 
-    public function getGeburtsdatum(): ?\DateTimeInterface
+    public function getGeburtsdatum(): ?DateTimeInterface
     {
         return $this->geburtsdatum;
     }
 
-    public function setGeburtsdatum(?\DateTimeInterface $geburtsdatum): self
+    public function setGeburtsdatum(?DateTimeInterface $geburtsdatum): self
     {
         $this->geburtsdatum = $geburtsdatum;
-
-        return $this;
-    }
-
-    public function getGeloescht(): ?bool
-    {
-        return $this->geloescht;
-    }
-
-    public function setGeloescht(bool $geloescht): self
-    {
-        $this->geloescht = $geloescht;
 
         return $this;
     }
@@ -134,7 +125,7 @@ class Kunde
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -146,7 +137,7 @@ class Kunde
         return $this;
     }
 
-    public function getVermittlerId(): ?int
+    public function getVermittlerId(): int
     {
         return $this->vermittler_id;
     }

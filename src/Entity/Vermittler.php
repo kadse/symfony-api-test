@@ -1,53 +1,54 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Attributes\HasSoftDelete;
+use App\Entity\Attributes\SoftDeletable;
 use App\Repository\VermittlerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=VermittlerRepository::class)
+ * @ORM\Table(name="std.tbl_kunden")
  */
-class Vermittler
+class Vermittler implements SoftDeletable
 {
+    use HasSoftDelete;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=8)
      */
-    private $nummer;
+    private string $nummer;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $vorname;
+    private string $vorname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nachname;
+    private string $nachname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $firma;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $geloescht;
+    private ?string $firma;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNummer(): ?string
+    public function getNummer(): string
     {
         return $this->nummer;
     }
@@ -59,7 +60,7 @@ class Vermittler
         return $this;
     }
 
-    public function getVorname(): ?string
+    public function getVorname(): string
     {
         return $this->vorname;
     }
@@ -71,7 +72,7 @@ class Vermittler
         return $this;
     }
 
-    public function getNachname(): ?string
+    public function getNachname(): string
     {
         return $this->nachname;
     }
@@ -91,18 +92,6 @@ class Vermittler
     public function setFirma(?string $firma): self
     {
         $this->firma = $firma;
-
-        return $this;
-    }
-
-    public function getGeloescht(): ?bool
-    {
-        return $this->geloescht;
-    }
-
-    public function setGeloescht(bool $geloescht): self
-    {
-        $this->geloescht = $geloescht;
 
         return $this;
     }
